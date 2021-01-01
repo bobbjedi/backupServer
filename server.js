@@ -24,7 +24,7 @@ let server = new http.Server(function ({url}, res) {
     res.end('404!');
 });
 
-let host = '127.0.0.1';
+let host = 'xxx.xxx.xxx.xxx'; // current vps ip
 server.listen(port, host);
 console.info('backup Serever started', 'http://localhost:' + port);
 
