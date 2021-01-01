@@ -1,6 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 const port = 3003;
+const maxFilesOfProject = 50;
 
 let server = new http.Server(function ({url}, res) {
     try {
@@ -24,7 +25,7 @@ let server = new http.Server(function ({url}, res) {
     res.end('404!');
 });
 
-let host = 'xxx.xxx.xxx.xxx'; // current vps ip
+let host = 'xxx.xxx.xxx.xxx';
 server.listen(port, host);
 console.info('backup Serever started', 'http://localhost:' + port);
 
@@ -40,4 +41,24 @@ const downLoad = (url, fileName) => {
             request.abort();
         });
     });
-} 
+}
+
+const clear = () => {
+    const content = fs.readdirSync('./');
+    content.forEach(c => {
+        if (c.includes('.')) {
+            return;
+        }
+        const dirName = './' + c + '/';
+        const dirContent = fs.readdirSync(dirName);
+        if (dirContent.length < maxFilesOfProject) {
+            return console.log(c, 'count no enaut:' + dirContent.length);
+        }
+        dirContent.sort((f1, f2) => fs.statSync(dirName + f1).birthtimeMs - fs.statSync(dirName + f2).birthtimeMs);
+        dirContent.splice(-50);
+        console.log('Removed from', c, dirContent.length);
+        dirContent.forEach(f => fs.unlinkSync(dirName + f));
+    });
+}
+clear();
+setInterval(clear, 3600 * 1000);
