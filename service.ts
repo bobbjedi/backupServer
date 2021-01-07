@@ -3,7 +3,7 @@ const port = 3004;
 
 //config
 const myHost = 'xxx.xxx.xxx.xxx';
-const savedUrl = 'http://xx.xxx.xxx.xx:3003/backup=';
+const savedUrl = 'http://yyy.yyy.yyy.yyy:3003/backup=';
 const pName = 'prj';
 
 const myUrl = 'http://' + myHost + ':' + port;
